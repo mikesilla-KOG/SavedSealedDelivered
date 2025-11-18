@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Sealed Delivered</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <h1 class="logo">✨ Saved Sealed Delivered</h1>
+                <div class="nav-links">
+                    <a href="#products">Shop</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <button id="cart-btn" class="cart-button">
+                        🛒 Cart <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Handpicked Jewelry Collection</h2>
+            <p>Beautiful pieces, carefully saved, sealed, and delivered to you</p>
+            <a href="#products" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2>Our Collection</h2>
+            <div id="product-grid" class="product-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About Our Collection</h2>
+            <p>Each piece in our collection has been carefully selected for its beauty and quality. We offer timeless jewelry that you'll treasure for years to come.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Have questions? We'd love to hear from you!</p>
+            <p>Email: <a href="mailto:contact@elegantjewelry.com">contact@elegantjewelry.com</a></p>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h3>Total: $<span id="cart-total">0.00</span></h3>
+            </div>
+            <button id="checkout-btn" class="checkout-button">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-product">&times;</span>
+            <div id="product-detail"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Saved Sealed Delivered. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

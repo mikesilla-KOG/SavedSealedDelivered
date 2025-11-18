@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Saved Sealed Delivered</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .checkout-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 2rem;
+        }
+        
+        .checkout-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .checkout-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .order-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 5px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            padding-top: 1rem;
+            border-top: 2px solid #2c3e50;
+        }
+        
+        .order-items {
+            margin-bottom: 1rem;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        #card-element {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        #card-errors {
+            color: #c0392b;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .payment-btn {
+            width: 100%;
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .payment-btn:hover:not(:disabled) {
+            background: #229954;
+        }
+        
+        .payment-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-message {
+            display: none;
+            background: #27ae60;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .alternative-payment {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #fff3cd;
+            border-radius: 5px;
+            border: 1px solid #ffc107;
+        }
+        
+        .alternative-payment h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .alternative-payment p {
+            color: #856404;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <h1 class="logo">✨ Saved Sealed Delivered</h1>
+                <div class="nav-links">
+                    <a href="index.html">Back to Shop</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="checkout-container">
+        <h1 style="text-align: center; color: #2c3e50; margin-bottom: 2rem;">Checkout</h1>
+        
+        <!-- Order Summary -->
+        <div class="checkout-section">
+            <h2>Order Summary</h2>
+            <div id="order-items" class="order-items"></div>
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Shipping:</span>
+                    <span>FREE</span>
+                </div>
+                <div class="summary-item">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Shipping Information -->
+        <div class="checkout-section">
+            <h2>Shipping Information</h2>
+            <form id="checkout-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Street Address *</label>
+                    <input type="text" id="address" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zip">ZIP Code *</label>
+                        <input type="text" id="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone">
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Payment Information -->
+        <div class="checkout-section">
+            <h2>Payment Information</h2>
+            <p style="margin-bottom: 1rem; color: #666;">Enter your card details below. All payments are secured by Stripe.</p>
+            
+            <div id="card-element"></div>
+            <div id="card-errors"></div>
+            
+            <button id="submit-payment" class="payment-btn">Complete Purchase</button>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing payment...</p>
+            </div>
+            
+            <div class="success-message" id="success-message">
+                <h3>✓ Payment Successful!</h3>
+                <p>Thank you for your purchase. You will receive a confirmation email shortly.</p>
+            </div>
+            
+            <div class="alternative-payment">
+                <h3>⚠️ Demo Mode Notice</h3>
+                <p><strong>This is a demo checkout page.</strong> To enable real payments, you'll need to:</p>
+                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Create a <a href="https://stripe.com" target="_blank">Stripe account</a></li>
+                    <li>Get your API keys from the Stripe dashboard</li>
+                    <li>Replace the placeholder key in checkout.js with your real key</li>
+                    <li>Set up a backend server to handle payment processing securely</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Alternative:</strong> You can also list these items on Amazon, eBay, or Etsy for easier payment and shipping management. See the README file for more details.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Saved Sealed Delivered. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>
