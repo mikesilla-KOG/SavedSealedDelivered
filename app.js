@@ -21,13 +21,36 @@ function renderProducts() {
                          product.stock <= 2 ? `Only ${product.stock} left!` : 
                          `${product.stock} in stock`;
         
+        const images = product.images || [product.image];
+        const imageDotsHtml = images.length > 1 ? `
+            <div class="product-image-dots">
+                ${images.map((img, index) => `
+                    <span class="image-dot ${index === 0 ? 'active' : ''}" 
+                          onclick="changeProductCardImage(event, ${product.id}, ${index})"></span>
+                `).join('')}
+            </div>
+        ` : '';
+        
+        const priceHtml = product.originalPrice ? `
+            <div class="product-price">
+                <span class="sale-badge">SALE</span>
+                <span class="original-price">$${product.originalPrice.toFixed(2)}</span>
+                <span class="sale-price">$${product.price.toFixed(2)}</span>
+            </div>
+        ` : `
+            <div class="product-price">$${product.price.toFixed(2)}</div>
+        `;
+        
         return `
             <div class="product-card" data-product-id="${product.id}">
-                <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                <div class="product-image-container">
+                    <img src="${images[0]}" alt="${product.name}" class="product-image" loading="lazy" data-images='${JSON.stringify(images)}'>
+                    ${imageDotsHtml}
+                </div>
                 <div class="product-info">
                     <h3>${product.name}</h3>
                     <p>${product.description.substring(0, 80)}...</p>
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    ${priceHtml}
                     <div class="stock-info ${stockClass}">${stockText}</div>
                     <button class="add-to-cart-btn" 
                             data-product-id="${product.id}" 
@@ -42,7 +65,8 @@ function renderProducts() {
     // Add click listeners to product cards
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', function(e) {
-            if (!e.target.classList.contains('add-to-cart-btn')) {
+            if (!e.target.classList.contains('add-to-cart-btn') && 
+                !e.target.classList.contains('image-dot')) {
                 const productId = parseInt(this.dataset.productId);
                 showProductDetail(productId);
             }
@@ -67,6 +91,23 @@ function renderProducts() {
     });
 }
 
+// Change product card image
+function changeProductCardImage(event, productId, imageIndex) {
+    event.stopPropagation();
+    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (!card) return;
+    
+    const img = card.querySelector('.product-image');
+    const images = JSON.parse(img.dataset.images);
+    img.src = images[imageIndex];
+    
+    // Update active dot
+    const dots = card.querySelectorAll('.image-dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === imageIndex);
+    });
+}
+
 // Show product detail modal
 function showProductDetail(productId) {
     const product = getProductById(productId);
@@ -80,16 +121,54 @@ function showProductDetail(productId) {
                      product.stock <= 2 ? `Only ${product.stock} left!` : 
                      `${product.stock} in stock`;
     
+    // Generate image gallery HTML
+    const images = product.images || [product.image];
+    const mainImage = images[0];
+    const thumbnailsHtml = images.length > 1 ? `
+        <div class="product-thumbnails">
+            ${images.map((img, index) => `
+                <img src="${img}" alt="${product.name}" class="product-thumbnail ${index === 0 ? 'active' : ''}" 
+                     onclick="changeProductImage('${img}', this)">
+            `).join('')}
+        </div>
+    ` : '';
+    
+    const priceHtml = product.originalPrice ? `
+        <div class="product-price">
+            <span class="sale-badge">SALE</span>
+            <span class="original-price">$${product.originalPrice.toFixed(2)}</span>
+            <span class="sale-price">$${product.price.toFixed(2)}</span>
+        </div>
+    ` : `
+        <div class="product-price">$${product.price.toFixed(2)}</div>
+    `;
+    
+    // Size selector for products with sizes
+    const sizeSelector = product.sizes ? `
+        <div class="size-selector">
+            <label for="product-size">Select Size:</label>
+            <select id="product-size" class="size-select">
+                ${product.sizes.map(s => `
+                    <option value="${s.size}" ${s.stock === 0 ? 'disabled' : ''}>
+                        Size ${s.size} ${s.stock === 0 ? '(Out of Stock)' : `(${s.stock} available)`}
+                    </option>
+                `).join('')}
+            </select>
+        </div>
+    ` : '';
+    
     detailContent.innerHTML = `
         <div class="product-detail-content">
-            <div>
-                <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+            <div class="product-images">
+                <img src="${mainImage}" alt="${product.name}" class="product-detail-image" id="main-product-image">
+                ${thumbnailsHtml}
             </div>
             <div class="product-detail-info">
                 <h2>${product.name}</h2>
-                <div class="product-price">$${product.price.toFixed(2)}</div>
+                ${priceHtml}
                 <div class="stock-info ${stockClass}">${stockText}</div>
                 <p class="product-description">${product.description}</p>
+                ${sizeSelector}
                 <button class="add-to-cart-btn" 
                         onclick="addToCartFromDetail(${product.id})" 
                         ${product.stock === 0 ? 'disabled' : ''}>
@@ -102,9 +181,33 @@ function showProductDetail(productId) {
     modal.style.display = 'block';
 }
 
+// Change main product image
+function changeProductImage(imageSrc, thumbnail) {
+    const mainImage = document.getElementById('main-product-image');
+    if (mainImage) {
+        mainImage.src = imageSrc;
+        // Update active thumbnail
+        document.querySelectorAll('.product-thumbnail').forEach(thumb => {
+            thumb.classList.remove('active');
+        });
+        thumbnail.classList.add('active');
+    }
+}
+
 // Add to cart from detail modal
 function addToCartFromDetail(productId) {
-    if (addToCart(productId)) {
+    const product = getProductById(productId);
+    let selectedSize = null;
+    
+    // Get selected size if product has sizes
+    if (product.sizes) {
+        const sizeSelect = document.getElementById('product-size');
+        if (sizeSelect) {
+            selectedSize = sizeSelect.value;
+        }
+    }
+    
+    if (addToCart(productId, selectedSize)) {
         document.getElementById('product-modal').style.display = 'none';
     }
 }

@@ -15,18 +15,33 @@ function saveCart() {
 }
 
 // Add item to cart
-function addToCart(productId) {
+function addToCart(productId, size = null) {
     const product = getProductById(productId);
     if (!product || !isInStock(productId)) {
         alert('Sorry, this item is out of stock.');
         return false;
     }
 
-    const cartItem = cart.find(item => item.productId === productId);
+    // Check size stock if applicable
+    if (product.sizes && size) {
+        const sizeOption = product.sizes.find(s => s.size === size);
+        if (!sizeOption || sizeOption.stock === 0) {
+            alert('Sorry, this size is out of stock.');
+            return false;
+        }
+    }
+
+    const cartItem = cart.find(item => 
+        item.productId === productId && (!size || item.size === size)
+    );
     
     if (cartItem) {
         // Check if we can add more
-        if (cartItem.quantity >= product.stock) {
+        const availableStock = product.sizes && size ? 
+            product.sizes.find(s => s.size === size).stock : 
+            product.stock;
+            
+        if (cartItem.quantity >= availableStock) {
             alert('Sorry, no more items available in stock.');
             return false;
         }
@@ -35,7 +50,8 @@ function addToCart(productId) {
         cart.push({
             productId: productId,
             quantity: 1,
-            price: product.price
+            price: product.price,
+            size: size
         });
     }
     
@@ -45,26 +61,34 @@ function addToCart(productId) {
 }
 
 // Remove item from cart
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.productId !== productId);
+function removeFromCart(productId, size = null) {
+    cart = cart.filter(item => 
+        !(item.productId === productId && (!size || item.size === size))
+    );
     saveCart();
     updateCartDisplay();
 }
 
 // Update item quantity in cart
-function updateCartQuantity(productId, newQuantity) {
+function updateCartQuantity(productId, newQuantity, size = null) {
     const product = getProductById(productId);
-    const cartItem = cart.find(item => item.productId === productId);
+    const cartItem = cart.find(item => 
+        item.productId === productId && (!size || item.size === size)
+    );
     
     if (!cartItem) return false;
     
     if (newQuantity <= 0) {
-        removeFromCart(productId);
+        removeFromCart(productId, size);
         return true;
     }
     
-    if (newQuantity > product.stock) {
-        alert('Sorry, only ' + product.stock + ' items available in stock.');
+    const availableStock = product.sizes && size ? 
+        product.sizes.find(s => s.size === size).stock : 
+        product.stock;
+    
+    if (newQuantity > availableStock) {
+        alert('Sorry, only ' + availableStock + ' items available in stock.');
         return false;
     }
     
@@ -112,20 +136,23 @@ function updateCartDisplay() {
                 const product = getProductById(item.productId);
                 if (!product) return '';
                 
+                const sizeText = item.size ? ` - Size ${item.size}` : '';
+                const cartKey = item.size ? `${product.id}_${item.size}` : product.id;
+                
                 return `
                     <div class="cart-item">
                         <div class="cart-item-info">
-                            <h4>${product.name}</h4>
+                            <h4>${product.name}${sizeText}</h4>
                             <p>$${product.price.toFixed(2)} each</p>
                             <div class="quantity-controls">
-                                <button class="quantity-btn" onclick="updateCartQuantity(${product.id}, ${item.quantity - 1})">-</button>
+                                <button class="quantity-btn" onclick="updateCartQuantity(${product.id}, ${item.quantity - 1}, '${item.size || ''}')">-</button>
                                 <span style="padding: 0 1rem;">Qty: ${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateCartQuantity(${product.id}, ${item.quantity + 1})">+</button>
+                                <button class="quantity-btn" onclick="updateCartQuantity(${product.id}, ${item.quantity + 1}, '${item.size || ''}')">+</button>
                             </div>
                         </div>
                         <div>
                             <p style="font-weight: 600; margin-bottom: 0.5rem;">$${(product.price * item.quantity).toFixed(2)}</p>
-                            <button class="remove-btn" onclick="removeFromCart(${product.id})">Remove</button>
+                            <button class="remove-btn" onclick="removeFromCart(${product.id}, '${item.size || ''}')">Remove</button>
                         </div>
                     </div>
                 `;

@@ -2,85 +2,120 @@
 const products = [
     {
         id: 1,
-        name: "Diamond Stud Earrings",
-        description: "Classic diamond stud earrings featuring brilliant cut diamonds in 14k white gold settings. Perfect for any occasion.",
-        price: 299.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&h=500&fit=crop",
-        category: "Earrings"
+        name: "SUPERNOVA Necklace",
+        description: "A star is etched at the center of this necklace with a sparkling cubic zirconia. Wear it proudly as a symbol that at the center of your being is your faith, Christ in you the hope of glory! Snake chain 16\"+2\" extension. Stainless steel 18k gold plated with cubic zirconia gemstone.",
+        price: 40.00,
+        originalPrice: 54.00,
+        stock: 71,
+        images: [
+            "pics/SUPERNOVA-necklace.jpg",
+            "pics/SUPERNOVA-necklace2.jpg",
+            "pics/SUPERNOVA-necklace3.jpg",
+            "pics/Supernova-necklace-box.jpg"
+        ],
+        image: "pics/SUPERNOVA-necklace.jpg",
+        category: "Necklaces"
     },
     {
         id: 2,
-        name: "Pearl Necklace",
-        description: "Elegant freshwater pearl necklace with sterling silver clasp. Timeless beauty that complements any outfit.",
-        price: 189.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=500&fit=crop",
+        name: "ESTELLA Pendant",
+        description: "Just like God spoke the stars into existence HE speaks light into your heart. \"Let there be light\" Gen 1:3 is laser engraved on the back of this pendant. Wear this necklace as a reminder that you shine His light wherever you go! Link chain 16\"+2\" extension. Stainless steel 18K gold plated with cubic zirconia gemstone.",
+        price: 42.00,
+        stock: 0,
+        images: [
+            "pics/pendant 1.jpg",
+            "pics/pendant 2.jpg",
+            "pics/pendant 3.jpg"
+        ],
+        image: "pics/pendant 1.jpg",
         category: "Necklaces"
     },
     {
         id: 3,
-        name: "Gold Bangle Bracelet",
-        description: "Stunning 18k gold bangle bracelet with intricate design. A statement piece that adds elegance to any look.",
-        price: 449.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&h=500&fit=crop",
+        name: "ORION Bangle Bracelet",
+        description: "Ten etched stars each with a delicate cubic zirconia in the center adorn this golden bangle. In the first chapter of Genesis the phrase \"God said\" appears 10 times… the first time God said, \"Let there Be light\". Wear this bangle as a reminder of God's ability to speak light into existence! 60mm diameter. Stainless steel 18K gold plated with cubic zirconia gemstone.",
+        price: 39.00,
+        stock: 0,
+        images: [
+            "pics/orion-bangle-1.jpg",
+            "pics/orion-bangle-3.jpg",
+            "pics/orion-bangle-back.jpg"
+        ],
+        image: "pics/orion-bangle-1.jpg",
         category: "Bracelets"
     },
     {
         id: 4,
-        name: "Sapphire Ring",
-        description: "Beautiful sapphire ring set in platinum with diamond accents. A truly special piece for special moments.",
-        price: 599.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&h=500&fit=crop",
-        category: "Rings"
-    },
-    {
-        id: 5,
-        name: "Silver Charm Bracelet",
-        description: "Versatile sterling silver charm bracelet with five beautiful charms. Add your own to make it uniquely yours.",
-        price: 129.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=500&h=500&fit=crop",
-        category: "Bracelets"
-    },
-    {
-        id: 6,
-        name: "Emerald Drop Earrings",
-        description: "Exquisite emerald drop earrings in 14k yellow gold. These eye-catching earrings bring color and sophistication.",
-        price: 379.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&h=500&fit=crop",
+        name: "HELIOS Mini Hoop",
+        description: "These everyday little hoops with four delicate etched stars signifying the 4th day when God created the stars and seven sparkly cubic zirconia stones all around. Seven the number of perfection. Wear these hoops as a reminder that every perfect gift is from above, coming down from the Father of lights! Stainless steel 18K gold plated with cubic zirconia gemstone.",
+        price: 25.00,
+        originalPrice: 35.00,
+        stock: 25,
+        images: [
+            "pics/HELIOSminihoop1.jpg",
+            "pics/HELIOSminihoop2.jpg",
+            "pics/HELIOSminihoop3.jpg"
+        ],
+        image: "pics/HELIOSminihoop1.jpg",
         category: "Earrings"
     },
     {
-        id: 7,
-        name: "Rose Gold Watch",
-        description: "Elegant rose gold watch with mother of pearl dial and leather strap. Fashion meets function beautifully.",
-        price: 259.99,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&h=500&fit=crop",
-        category: "Watches"
+        id: 5,
+        name: "NORTH STAR Dangle Earrings",
+        description: "These cute dangle earrings are perfect for everyday wear, with a single star etched in the center and a brilliant cluster of delicate cubic zirconia gemstone. A perfect reminder that you can hear his still small voice guiding you every step of the way! Brass 18K gold plated with cubic zirconia gemstone.",
+        price: 25.00,
+        originalPrice: 32.00,
+        stock: 10,
+        images: [
+            "pics/dangle earrings1 .jpg"
+        ],
+        image: "pics/dangle earrings1 .jpg",
+        category: "Earrings"
+    },
+    {
+        id: 6,
+        name: "BRILLIANT STAR Ring",
+        description: "A signet ring with a single etched star and vibrant cubic zirconia gemstone in the center. The signet ring has been around since the days of the old testament, when it was used as a seal or signature representing an individual's identity. Wear it proudly knowing that you have been created in God's image and you bare the seal of his identity! Stainless steel 18K gold plated with cubic zirconia gemstone.",
+        price: 30.00,
+        originalPrice: 46.00,
+        stock: 45,
+        sizes: [
+            { size: '6', stock: 18 },
+            { size: '7', stock: 14 },
+            { size: '8', stock: 13 }
+        ],
+        images: [
+            "pics/ring1.jpg",
+            "pics/ring2.jpg",
+            "pics/ring3.jpg"
+        ],
+        image: "pics/ring1.jpg",
+        category: "Rings"
     }
 ];
 
 // Save products to localStorage
 function saveProducts() {
     localStorage.setItem('products', JSON.stringify(products));
+    localStorage.setItem('productsVersion', '6.0'); // Version to track updates
 }
 
 // Load products from localStorage
 function loadProducts() {
+    const savedVersion = localStorage.getItem('productsVersion');
     const savedProducts = localStorage.getItem('products');
-    if (savedProducts) {
+    
+    // If version doesn't match or no saved products, use default products
+    if (savedVersion !== '6.0' || !savedProducts) {
+        // Clear old data and save new products
+        localStorage.removeItem('products');
+        localStorage.removeItem('productsVersion');
+        saveProducts();
+    } else {
         const parsed = JSON.parse(savedProducts);
         // Update the products array
         products.length = 0;
         products.push(...parsed);
-    } else {
-        // Initialize with default products
-        saveProducts();
     }
 }
 
