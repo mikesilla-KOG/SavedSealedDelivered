@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Glacial+Indifference:wght@400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +8,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Glacial Indifference', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
 }
@@ -18,7 +21,7 @@ body {
 
 /* Navigation */
 .navbar {
-    background: #2c3e50;
+    background: #510F1C;
     color: white;
     padding: 1rem 0;
     position: fixed;
@@ -35,8 +38,9 @@ body {
 }
 
 .logo {
+    font-family: 'Libre Baskerville', serif;
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .nav-links {
@@ -52,12 +56,12 @@ body {
 }
 
 .nav-links a:hover {
-    color: #e8b923;
+    color: #A58C47;
 }
 
 .cart-button {
-    background: #e8b923;
-    color: #2c3e50;
+    background: #A58C47;
+    color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -67,11 +71,11 @@ body {
 }
 
 .cart-button:hover {
-    background: #d4a017;
+    background: #510F1C;
 }
 
 #cart-count {
-    background: #c0392b;
+    background: #1F0108;
     color: white;
     border-radius: 50%;
     padding: 2px 8px;
@@ -80,16 +84,17 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #510F1C 0%, #1F0108 100%);
     color: white;
     padding: 150px 20px 100px;
     text-align: center;
     margin-top: 60px;
 }
-
 .hero-content h2 {
+    font-family: 'Libre Baskerville', serif;
     font-size: 3rem;
     margin-bottom: 1rem;
+}   margin-bottom: 1rem;
 }
 
 .hero-content p {
@@ -98,8 +103,8 @@ body {
 }
 
 .cta-button {
-    background: #e8b923;
-    color: #2c3e50;
+    background: #A58C47;
+    color: white;
     padding: 1rem 2rem;
     text-decoration: none;
     border-radius: 5px;
@@ -109,26 +114,28 @@ body {
 }
 
 .cta-button:hover {
-    background: #d4a017;
+    background: #510F1C;
     transform: translateY(-2px);
 }
 
 /* Products Section */
 .products-section {
     padding: 80px 20px;
-    background: #f8f9fa;
+    background: #EEEBE1;
 }
 
 .products-section h2 {
+    font-family: 'Libre Baskerville', serif;
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: #2c3e50;
+    color: #510F1C;
 }
 
+/* Updated: Two column layout for products */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
 
@@ -157,7 +164,8 @@ body {
 }
 
 .product-info h3 {
-    color: #2c3e50;
+    font-family: 'Libre Baskerville', serif;
+    color: #510F1C;
     margin-bottom: 0.5rem;
 }
 
@@ -168,7 +176,7 @@ body {
 
 .product-price {
     font-size: 1.5rem;
-    color: #e8b923;
+    color: #A58C47;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -184,12 +192,12 @@ body {
 }
 
 .stock-info.out-of-stock {
-    color: #c0392b;
+    color: #1F0108;
 }
 
 .add-to-cart-btn {
     width: 100%;
-    background: #667eea;
+    background: #510F1C;
     color: white;
     border: none;
     padding: 0.75rem;
@@ -200,7 +208,7 @@ body {
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
-    background: #5568d3;
+    background: #1F0108;
 }
 
 .add-to-cart-btn:disabled {
@@ -219,17 +227,18 @@ body {
 }
 
 .contact-section {
-    background: #f8f9fa;
+    background: #D0C2A6;
 }
-
 .about-section h2, .contact-section h2 {
+    font-family: 'Libre Baskerville', serif;
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    color: #2c3e50;
+    color: #510F1C;
+}   color: #510F1C;
 }
 
 .contact-section a {
-    color: #667eea;
+    color: #510F1C;
     text-decoration: none;
 }
 
@@ -291,10 +300,11 @@ body {
 .cart-item-info {
     flex: 1;
 }
-
 .cart-item-info h4 {
-    color: #2c3e50;
+    font-family: 'Libre Baskerville', serif;
+    color: #510F1C;
     margin-bottom: 0.25rem;
+}   margin-bottom: 0.25rem;
 }
 
 .quantity-controls {
@@ -304,7 +314,7 @@ body {
 }
 
 .quantity-btn {
-    background: #667eea;
+    background: #A58C47;
     color: white;
     border: none;
     width: 25px;
@@ -315,11 +325,11 @@ body {
 }
 
 .quantity-btn:hover {
-    background: #5568d3;
+    background: #510F1C;
 }
 
 .remove-btn {
-    background: #c0392b;
+    background: #1F0108;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -328,13 +338,13 @@ body {
 }
 
 .remove-btn:hover {
-    background: #a93226;
+    background: #510F1C;
 }
 
 .cart-total {
     text-align: right;
     padding: 1.5rem;
-    border-top: 2px solid #2c3e50;
+    border-top: 2px solid #510F1C;
     margin-top: 1rem;
 }
 
@@ -372,10 +382,11 @@ body {
     width: 100%;
     border-radius: 10px;
 }
-
 .product-detail-info h2 {
-    color: #2c3e50;
+    font-family: 'Libre Baskerville', serif;
+    color: #510F1C;
     margin-bottom: 1rem;
+}   margin-bottom: 1rem;
 }
 
 .product-detail-info .product-price {
@@ -390,7 +401,7 @@ body {
 
 /* Footer */
 footer {
-    background: #2c3e50;
+    background: #510F1C;
     color: white;
     text-align: center;
     padding: 2rem 0;
