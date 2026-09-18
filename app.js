@@ -48,8 +48,9 @@ function renderProducts() {
                     ${imageDotsHtml}
                 </div>
                 <div class="product-info">
+                    <div class="product-category">${product.category || 'Jewelry'}</div>
                     <h3>${product.name}</h3>
-                    <p>${product.description.substring(0, 80)}...</p>
+                    <p>${product.description.substring(0, 90)}${product.description.length > 90 ? '…' : ''}</p>
                     ${priceHtml}
                     <div class="stock-info ${stockClass}">${stockText}</div>
                     <button class="add-to-cart-btn" 

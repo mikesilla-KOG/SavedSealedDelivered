@@ -2,6 +2,13 @@
 
 A beautiful, fully-functional jewelry e-commerce website with inventory management, shopping cart, and payment integration.
 
+
+## 🌐 Live Storefront (GitHub Pages)
+
+**Share this link:** https://mikesilla-kog.github.io/SavedSealedDelivered/
+
+The site is a static storefront (catalog, cart, checkout hooks, admin). Stripe keys remain placeholders until you add your own — see Payment Integration below.
+
 ## 🌟 Features
 
 - **Product Catalog**: Display 7 jewelry items with images, descriptions, and pricing
